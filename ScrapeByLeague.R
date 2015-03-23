@@ -1,16 +1,16 @@
 #Code to open all match reports of a team and get their match commn
 #This code does it team by team. Try it league by league?
 
-cityurl <- "http://www.bbc.com/sport/football/teams/manchester-united/results"
+cityurl <- "http://www.bbc.com/sport/football/premier-league/results"
 
 
 
-leaguelinks <- function(teamurl)
+leaguelinks <- function(leagueurl)
 {
     
     bbcprefix <- "http://www.bbc.com"
     
-    page <- html(teamurl)
+    page <- html(leagueurl)
     
     reportlinks <- page %>%
         html_nodes(".report") %>%
