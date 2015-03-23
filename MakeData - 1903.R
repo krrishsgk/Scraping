@@ -28,6 +28,24 @@ data$isgoal <- grepl("Goal", data$livetext)
 data$ispen <- grepl("Penalty|penalty", data$livetext)
 
 
+#primary Player
+for(i in 1:nrow(data)){
+    if(grepl("missed",data$livetext[i])==TRUE){
+        data$primaryplayer[i] <- str_match(data$livetext[i], "Attempt missed. ([a-zA-Z0-9\ ]+)\\ ")[2]
+    }
+    else if(grepl("blocked",data$livetext[i])==TRUE){
+        data$primaryplayer[i] <- str_match(data$livetext[i], "Attempt blocked. ([a-zA-Z0-9\ ]+)\\ ")[2]
+    }
+    else if(grepl("saved",data$livetext[i])==TRUE){
+        data$primaryplayer[i] <- str_match(data$livetext[i], "Attempt saved. ([a-zA-Z0-9\ ]+)\\ ")[2]
+    }
+    
+    else{
+        data$primaryplayer[i] <- NA
+    }
+}
+
+
 #Save or goal location
 locations <- c("top right corner","bottom right corner","top left corner", "bottom left corner",
                "centre of the goal","top centre of the goal")
@@ -38,8 +56,8 @@ for (i in 1:length(locations)) {
 }
 
 #Shooting Foot
-rightorleft <- c("right footed shot","left footed shot")
-RorL <- c("R","L")
+rightorleft <- c("header","right footed shot","left footed shot")
+RorL <- c("H","R","L")
 for (i in 1:length(rightorleft)) {
     data$foot[grepl(rightorleft[i],data$livetext, perl=TRUE)] <- RorL[i]
 }
@@ -55,15 +73,16 @@ match <- getmatchdata(league$matchlinks[12])
 x<-grep(pattern="right footed shot",x=match$livetext)
 match$livetext[x]
 
+#Primary Player - not working
+match$test[grepl("missed",match$livetext,perl=TRUE)] <- str_match(match$livetext, "Attempt missed. ([a-zA-Z0-9\ ]+)\\ ")[2]
+primaryplayer <- str_match(match$livetext[5], "Attempt missed. ([a-zA-Z0-9\ ]+)\\ ")[2]
+
 
 
 #checking shots data
 which($eventType=="shot") %>% length
 which(!is.na(data$shotposition)) %>% length
 
-#Primary Player - not working
-match$test[grepl("missed",match$livetext,perl=TRUE)] <- str_match(match$livetext, "Attempt missed. ([a-zA-Z0-9\ ]+)\\ ")[2]
-primaryplayer <- str_match(match$livetext[5], "Attempt missed. ([a-zA-Z0-9\ ]+)\\ ")[2]
 
 #Get shot position
 #data$shotlocation <- NA
