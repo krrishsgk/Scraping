@@ -7,6 +7,7 @@ textMarkers <- c("Penalty conceded", "Substitution", "Dismissal", "Booking", "wi
 
 eventIDs <- c("penfoul","sub","red","yellow","free kick won", "offside","corner", "foul", "shot", "own goal")
 
+
 #assign event type to each commentary event. 
 for (i in 1:length(textMarkers)) {
     data$eventType[grepl(textMarkers[i],data$livetext, perl=TRUE)] <- eventIDs[i]
@@ -60,23 +61,9 @@ match$livetext[x]
 which($eventType=="shot") %>% length
 which(!is.na(data$shotposition)) %>% length
 
-
-very close range
-centre of the box
-outside the box
-a difficult angle on the right
-a difficult angle on the left
-left side of the box
-right side of the box
-right side of the six yard box
-left side of the six yard box
-
-centre of the goal
-bottom right corner
-bottom left corner
-top right corner
-top left corner
-top centre of the goal
+#Primary Player - not working
+match$test[grepl("missed",match$livetext,perl=TRUE)] <- str_match(match$livetext, "Attempt missed. ([a-zA-Z0-9\ ]+)\\ ")[2]
+primaryplayer <- str_match(match$livetext[5], "Attempt missed. ([a-zA-Z0-9\ ]+)\\ ")[2]
 
 #Get shot position
 #data$shotlocation <- NA
