@@ -7,6 +7,9 @@ cityurl <- "http://www.bbc.com/sport/football/premier-league/results"
 
 leaguelinks <- function(leagueurl)
 {
+    library(magrittr)
+    library(rvest)
+    library(stringr)
     
     bbcprefix <- "http://www.bbc.com"
     
