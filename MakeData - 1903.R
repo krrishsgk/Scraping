@@ -32,15 +32,11 @@ data$ispen <- grepl("Penalty|penalty", data$livetext)
 for(i in 1:nrow(data)){
     if(grepl("missed",data$livetext[i])==TRUE){
         data$primaryplayer[i] <- str_match(data$livetext[i], "Attempt missed. ([a-zA-Z0-9\ ]+)\\ ")[2]
-    }
-    else if(grepl("blocked",data$livetext[i])==TRUE){
+    }else if(grepl("blocked",data$livetext[i])==TRUE){
         data$primaryplayer[i] <- str_match(data$livetext[i], "Attempt blocked. ([a-zA-Z0-9\ ]+)\\ ")[2]
-    }
-    else if(grepl("saved",data$livetext[i])==TRUE){
+    }else if(grepl("saved",data$livetext[i])==TRUE){
         data$primaryplayer[i] <- str_match(data$livetext[i], "Attempt saved. ([a-zA-Z0-9\ ]+)\\ ")[2]
-    }
-    
-    else{
+    }else{
         data$primaryplayer[i] <- NA
     }
 }
