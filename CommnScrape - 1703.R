@@ -40,7 +40,7 @@ cleanMins2 <- mins %>%
 cleanMins1 <- cleanMins1[grepl("[0-9]", cleanMins1) & !grepl("[+]",cleanMins1)] %>%
     as.numeric()
 
-matchdata <- data.frame(cleanMins1, livetext, stringsAsFactors=FALSE)
+matchdata <- data.frame(url, cleanMins1, livetext, stringsAsFactors=FALSE)
 
 return(matchdata)
 }
