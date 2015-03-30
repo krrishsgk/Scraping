@@ -1,6 +1,3 @@
-install.packages("magrittr")
-install.packages("rvest")
-
 #Saving the required page in a variable and reading it
 pageLink <- "http://www.bbc.com/sport/0/football/31826980"
 barcaCity <- "http://www.bbc.com/sport/0/football/31922160"
@@ -20,7 +17,7 @@ livetext <- page %>%
     gsub("^\\s+|\\s+$", "", .)
 
 #extracting respective match time tags
-mins <- page %>%
+actionmins <- page %>%
     html_nodes('.live-text span') %>%
     html_text()
 
@@ -28,19 +25,19 @@ mins <- page %>%
 livetext <- livetext[!grepl(pattern="Match ends", livetext, ignore.case=TRUE )]
 
 #Two ways to clean the data
-cleanMins1 <- mins %>%
+Mins <- actionmins %>%
     gsub("[\\sa-zA-Z!]","",.) %>%
     gsub("(:).*","",.)
 
-cleanMins2 <- mins %>%
-    gsub("[A-z!]","",.) %>%
-    gsub("(:).*","",.)
+#cleanMins2 <- mins %>%
+ #   gsub("[A-z!]","",.) %>%
+  #  gsub("(:).*","",.)
 
 #Removing entries which don't have numbers and entries which have +
-cleanMins1 <- cleanMins1[grepl("[0-9]", cleanMins1) & !grepl("[+]",cleanMins1)] %>%
+Mins <- Mins[grepl("[0-9]", Mins) & !grepl("[+]",Mins)] %>%
     as.numeric()
 
-matchdata <- data.frame(url, cleanMins1, livetext, stringsAsFactors=FALSE)
+matchdata <- data.frame(url, Mins, livetext, stringsAsFactors=FALSE)
 
 return(matchdata)
 }

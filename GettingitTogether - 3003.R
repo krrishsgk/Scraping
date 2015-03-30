@@ -1,6 +1,4 @@
-urlsDf <- teamlinks("http://www.bbc.co.uk/sport/football/teams/middlesbrough/results")
-newDataFrame <- merge(df, urlsDf, by.x="url", by.y="matchlinks")
-
+library(data.table)
 
 tempdf <- data.frame()
 
@@ -12,9 +10,11 @@ epllinks <- leaguelinks(eplurl)
 templinks <- epllinks[1:3,]
 
 
-tempdf <- lapply(templinks$matchlinks,FUN=getmatchdata) %>%
-    do.call(rbind,.) %>%
+finaldf <- lapply(epllinks$matchlinks,FUN=getmatchdata) %>%
+    rbindlist(.) %>%
     makedata(.)
 
 
+newDataFrame <- merge(epllinks, finaldf, by.x="matchlinks", by.y="url")
+write.csv(newDataFrame, "BBCScrapeEpl.csv")
 
