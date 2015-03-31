@@ -7,6 +7,7 @@ tempdf <- rbindlist(epllinks$matchlinks[1],use.names=FALSE,fill=FALSE)
 
 
 epllinks <- leaguelinks(eplurl)
+#subsetting epllinks to experiment
 templinks <- epllinks[1:3,]
 
 
