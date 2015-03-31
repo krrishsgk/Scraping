@@ -13,12 +13,19 @@ for (i in 1:length(textMarkers)) {
     data$eventType[grepl(textMarkers[i],data$livetext, perl=TRUE)] <- eventIDs[i]
 }
 
-shottypes <- c("very close range","centre of the box","outside the box","a difficult angle on the right",
+shottypes <- c("free kick","Penalty|penalty","very close range","centre of the box","outside the box","a difficult angle on the right",
                "a difficult angle on the left","left side of the box","right side of the box",
-               "right side of the six yard box","left side of the six yard box")
+               "right side of the six yard box","left side of the six yard box",
+               "from a difficult angle and long range on the right",
+               "from a difficult angle and long range on the left", "from more than 35 yards",
+               "long range on the left","long range on the right")
+
+shotForms <- c("FreeKick","pen","CloseRange","CBox","OBox","DiffAngR","DiffAngL","LSBox","RSBox","RS6Box","LS6Box","DiffAngLongR",
+               "DiffAngLongL","35YardsPlus","LongL","LongR")
+
 
 for (i in 1:length(shottypes)) {
-    data$shotposition[grepl(shottypes[i],data$livetext, perl=TRUE)] <- shottypes[i]
+    data$shotposition[grepl(shottypes[i],data$livetext, perl=TRUE)] <- shotForms[i]
     }
 
 #is it a goal?

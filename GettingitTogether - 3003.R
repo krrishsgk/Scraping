@@ -14,7 +14,16 @@ finaldf <- lapply(epllinks$matchlinks,FUN=getmatchdata) %>%
     rbindlist(.) %>%
     makedata(.)
 
-
+#merging data with fixtures and score
 newDataFrame <- merge(epllinks, finaldf, by.x="matchlinks", by.y="url")
+
+#creating dataset for shots alone
+shotsData <- filter(.data=newDataFrame,eventType=="shot")
+shotsNas <- filter(.data=shotsData,is.na(shotsData$shotposition))
+
 write.csv(newDataFrame, "BBCScrapeEpl.csv")
+
+#Summarising
+Footcuracy <- group_by(x=newDataFrame,primaryplayer,foot) %>%
+    summarise(.,count(foot))
 
