@@ -10,7 +10,7 @@ epllinks <- leaguelinks(eplurl)
 #subsetting epllinks to experiment
 templinks <- epllinks[1:3,]
 
-
+#Run the data.table package before using rbindlist
 finaldf <- lapply(epllinks$matchlinks,FUN=getmatchdata) %>%
     rbindlist(.) %>%
     makedata(.)
