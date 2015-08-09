@@ -1,7 +1,3 @@
-#Saving the required page in a variable and reading it
-pageLink <- "http://www.bbc.com/sport/0/football/31826980"
-barcaCity <- "http://www.bbc.com/sport/0/football/31922160"
-
 getmatchdata <- function(url)
 {
 library(magrittr)

@@ -18,10 +18,11 @@ shottypes <- c("free kick","Penalty|penalty","very close range","centre of the b
                "right side of the six yard box","left side of the six yard box",
                "from a difficult angle and long range on the right",
                "from a difficult angle and long range on the left", "from more than 35 yards",
-               "long range on the left","long range on the right")
+               "long range on the left","long range on the right",
+               "from more than 40 yards on the right wing","from more than 40 yards on the left wing")
 
 shotForms <- c("FreeKick","pen","CloseRange","CBox","OBox","DiffAngR","DiffAngL","LSBox","RSBox","RS6Box","LS6Box","DiffAngLongR",
-               "DiffAngLongL","35YardsPlus","LongL","LongR")
+               "DiffAngLongL","35YardsPlus","LongL","LongR","40PlusR","40PlusL")
 
 
 for (i in 1:length(shottypes)) {
@@ -71,10 +72,6 @@ for (i in 1:length(rightorleft)) {
 return(data)
 }
 
-#temp processing. delete later
-match <- getmatchdata(league$matchlinks[12])
-x<-grep(pattern="right footed shot",x=match$livetext)
-match$livetext[x]
 
 #Primary Player - not working
 match$test[grepl("missed",match$livetext,perl=TRUE)] <- str_match(match$livetext, "Attempt missed. ([a-zA-Z0-9\ ]+)\\ ")[2]
