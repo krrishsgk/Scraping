@@ -13,9 +13,9 @@ library(dplyr)
 epllinks <- leaguelinks(eplurl)
 
 #Run the data.table package before using rbindlist
-finaldf <- lapply(epllinks$matchlinks,FUN=getmatchdata) %>%
-  rbindlist(.) %>%
-  makedata(.)
+finaldf <- lapply(epllinks$matchlinks,FUN=getmatchdata) 
+finaldf <- rbindlist(finaldf)
+finaldf <- makedata(finaldf)
 
 #merging data with fixtures and score
 newDataFrame <- merge(epllinks, finaldf, by.x="matchlinks", by.y="url")
@@ -25,9 +25,3 @@ shotsData <- filter(.data=newDataFrame,eventType=="shot")
 return(shotsData)
 }
 
-#Trying it out
-links <- "http://web.archive.org/web/20150726055602/http://www.bbc.com/sport/football/premier-league/results"
-
-shots1415 <- getItTogether(links)
-
-shotsNas <- filter(.data=shots1415,is.na(shots1415$shotposition))

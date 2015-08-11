@@ -7,17 +7,18 @@ tempdf <- do.call("rbind", apply(epllinks,MARGIN=2,getmatchdata))
 tempdf <- rbindlist(epllinks$matchlinks[1],use.names=FALSE,fill=FALSE)
 
 
-epllinks <- leaguelinks(eplurl)
+epllinks <- leaguelinks(link1314)
+epllinks <- epllinks[1:320,]
 #subsetting epllinks to experiment
 templinks <- epllinks[1:3,]
 
 #Run the data.table package before using rbindlist
-finaldf <- lapply(epllinks$matchlinks,FUN=getmatchdata) %>%
+shots1314 <- lapply(epllinks$matchlinks,FUN=getmatchdata) %>%
     rbindlist(.) %>%
     makedata(.)
 
 #merging data with fixtures and score
-newDataFrame <- merge(epllinks, finaldf, by.x="matchlinks", by.y="url")
+shots1314 <- merge(epllinks, shots1314, by.x="matchlinks", by.y="url")
 
 #creating dataset for shots alone
 shotsData <- filter(.data=newDataFrame,eventType=="shot")
