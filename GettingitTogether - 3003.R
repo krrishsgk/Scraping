@@ -10,10 +10,10 @@ tempdf <- rbindlist(epllinks$matchlinks[1],use.names=FALSE,fill=FALSE)
 epllinks <- leaguelinks(link1314)
 epllinks <- epllinks[1:320,]
 #subsetting epllinks to experiment
-templinks <- epllinks[1:3,]
+templinks <- epllinks[3,]
 
 #Run the data.table package before using rbindlist
-shots1314 <- lapply(epllinks$matchlinks,FUN=getmatchdata) %>%
+shots1314 <- lapply(templinks$matchlinks,FUN=getmatchdata) %>%
     rbindlist(.) %>%
     makedata(.)
 
