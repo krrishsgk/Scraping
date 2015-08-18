@@ -37,18 +37,32 @@ data$ispen <- grepl("Penalty|penalty", data$livetext)
 
 
 #primary Player
-for(i in 1:nrow(data)){
-    if(grepl("missed",data$livetext[i])==TRUE){
-        data$primaryplayer[i] <- str_match(data$livetext[i], "Attempt missed. ([a-zA-Z0-9\ ]+)\\ ")[2]
-    }else if(grepl("blocked",data$livetext[i])==TRUE){
-        data$primaryplayer[i] <- str_match(data$livetext[i], "Attempt blocked. ([a-zA-Z0-9\ ]+)\\ ")[2]
-    }else if(grepl("saved",data$livetext[i])==TRUE){
-        data$primaryplayer[i] <- str_match(data$livetext[i], "Attempt saved. ([a-zA-Z0-9\ ]+)\\ ")[2]
-    }else{
-        data$primaryplayer[i] <- NA
-    }
+#Splits the line by fullstops. Takes the second entry, trims leading whitespace, and takes the values
+#before '('
+for (i in 1:nrow(data)) {
+  data$primaryplayer[i] <- strsplit(data$livetext[i],'.',fixed=TRUE)[[1]][2]
+  data$primaryplayer[i] <- sub("^\\s+", "", data$primaryplayer[i]) 
+  data$primaryplayer[i] <- strsplit(as.character(data$primaryplayer[i]),'(',fixed=TRUE)[[1]][1]
 }
 
+#Assisting player
+
+for (i in 1:nrow(data)) {
+  data$assistplayer[i] <- strsplit(data$livetext[i],'.',fixed=TRUE)[[1]][3]
+  
+  if(grepl("with", x = data$assistplayer[i])) {
+    data$assistplayer[i] <- str_match(data$assistplayer[i], paste("by ", '(.+)', " with", sep=''))[,2]    
+  }
+  else{
+    data$assistplayer[i] <- str_match(data$assistplayer[i], paste("by ", '(.+)', sep=''))[,1] %>%
+    sub("by ", "",.)
+  }
+}
+  
+  
+
+#team the event maker belongs to
+data$eventteam <- sub("\\).*", "", sub(".*\\(", "", data$livetext)) 
 
 #Save or goal location
 locations <- c("top right corner","bottom right corner","top left corner", "bottom left corner",
@@ -66,26 +80,7 @@ for (i in 1:length(rightorleft)) {
     data$foot[grepl(rightorleft[i],data$livetext, perl=TRUE)] <- RorL[i]
 }
 
-#Find out the primary team involved but doesn't make sense
-#data$PrimaryTeam[grepl(".*\\((.*)\\).*",data$livetext)] <- gsub(".*\\((.*)\\).*", "\\1", data$livetext)
 
 return(data)
 }
 
-
-#Primary Player - not working
-match$test[grepl("missed",match$livetext,perl=TRUE)] <- str_match(match$livetext, "Attempt missed. ([a-zA-Z0-9\ ]+)\\ ")[2]
-primaryplayer <- str_match(match$livetext[5], "Attempt missed. ([a-zA-Z0-9\ ]+)\\ ")[2]
-
-
-
-#checking shots data
-which($eventType=="shot") %>% length
-which(!is.na(data$shotposition)) %>% length
-
-
-#Get shot position
-#data$shotlocation <- NA
-#indexes <- which(data$eventType=="shot") 
-#data$shotlocation[indexes] <-gsub(".*from\\s*|is.*","", data$livetext[indexes]) %>%
-#    str_trim
