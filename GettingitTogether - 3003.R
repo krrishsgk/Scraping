@@ -8,24 +8,24 @@ tempdf <- do.call("rbind", apply(epllinks,MARGIN=2,getmatchdata))
 tempdf <- rbindlist(epllinks$matchlinks[1],use.names=FALSE,fill=FALSE)
 
 
-epllinks <- leaguelinks(link1314)
+epllinks <- leaguelinks(link1415)
 epllinks <- epllinks[1:320,]
 #subsetting epllinks to experiment
 templinks <- epllinks[1:190,]
 
 #Run the data.table package before using rbindlist
-shots1314 <- lapply(epllinks$matchlinks,FUN=getmatchdata)
-shots1314 <- rbindlist(shots1314)
-shots1314 <- makedata(shots1314)
+shots1415 <- lapply(epllinks$matchlinks,FUN=getmatchdata)
+shots1415 <- rbindlist(shots1415)
+shots1415 <- makedata(shots1415)
 #merging data with fixtures and score
-shots1314 <- merge(epllinks, shots1314, by.x="matchlinks", by.y="url")
+shots1415 <- merge(epllinks, shots1415, by.x="matchlinks", by.y="url")
 
 #creating dataset for shots alone
-shots1314 <- filter(shots1314,eventType=="shot")
+shots1415 <- filter(shots1415,eventType=="shot")
 
 shotsNas <- filter(.data=shotsData,is.na(shotsData$shotposition))
 
-write.csv(shots1314, "shots1314.csv")
+write.csv(shots1415, "shots1415.csv")
 
 #Summarising
 shotPlaces <- group_by(x=shotsData, shotposition) %>%
