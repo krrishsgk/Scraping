@@ -42,10 +42,12 @@ data$ispen <- grepl("Penalty|penalty", data$livetext)
 for (i in 1:nrow(data)) {
   data$primaryplayer[i] <- strsplit(data$livetext[i],'.',fixed=TRUE)[[1]][2]
   data$primaryplayer[i] <- sub("^\\s+", "", data$primaryplayer[i]) 
-  data$primaryplayer[i] <- strsplit(as.character(data$primaryplayer[i]),'(',fixed=TRUE)[[1]][1]
+  data$primaryplayer[i] <- strsplit(as.character(data$primaryplayer[i]),' (',fixed=TRUE)[[1]][1]
 }
 
 #Assisting player
+#Splits sentence by period '.', and takes 3rd part. If type of assist is present (if sentence has
+#'with', then take the name after 'by' and before 'with'. If not, take the name that follows 'by'.)
 
 for (i in 1:nrow(data)) {
   data$assistplayer[i] <- strsplit(data$livetext[i],'.',fixed=TRUE)[[1]][3]
@@ -61,7 +63,7 @@ for (i in 1:nrow(data)) {
   
   
 
-#team the event maker belongs to
+#team the event maker belongs to. Takes values between brackets
 data$eventteam <- sub("\\).*", "", sub(".*\\(", "", data$livetext)) 
 
 #Save or goal location
