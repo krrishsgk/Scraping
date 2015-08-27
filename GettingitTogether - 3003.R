@@ -14,18 +14,18 @@ epllinks <- epllinks[1:320,]
 templinks <- epllinks[1:190,]
 
 #Run the data.table package before using rbindlist
-shots1415 <- lapply(epllinks$matchlinks,FUN=getmatchdata)
-shots1415 <- rbindlist(shots1415)
-shots1415 <- makedata(shots1415)
+shots1314 <- lapply(epllinks$matchlinks,FUN=getmatchdata)
+shots1314 <- rbindlist(shots1314)
+shots1314 <- makedata(shots1314)
 #merging data with fixtures and score
-shots1415 <- merge(epllinks, shots1415, by.x="matchlinks", by.y="url")
+shots1314 <- merge(epllinks, shots1314, by.x="matchlinks", by.y="url")
 
 #creating dataset for shots alone
-shots1415 <- filter(shots1415,eventType=="shot")
+shots1314 <- filter(shots1314,eventType=="shot")
 
 shotsNas <- filter(.data=shotsData,is.na(shotsData$shotposition))
 
-write.csv(shots1415, "shots1415.csv")
+write.csv(shots1314, "shots1314.csv")
 
 #Summarising
 shotPlaces <- group_by(x=shotsData, shotposition) %>%
@@ -33,3 +33,4 @@ shotPlaces <- group_by(x=shotsData, shotposition) %>%
 
 link1415 <- "http://web.archive.org/web/20150531035857/http://www.bbc.com/sport/football/premier-league/results"
 shots1415 <- getItTogether(link1415)
+write.csv(shots1415, "shots1415.csv")
