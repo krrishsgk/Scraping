@@ -39,8 +39,16 @@ data$ispen <- grepl("Penalty|penalty", data$livetext)
 #primary Player
 #Splits the line by fullstops. Takes the second entry, trims leading whitespace, and takes the values
 #before '('
+#If ball hits post or bar, the entry is different. Hence accounting for that. Have to take 1st entry
 for (i in 1:nrow(data)) {
-  data$primaryplayer[i] <- strsplit(data$livetext[i],'.',fixed=TRUE)[[1]][2]
+  if(grepl("hits the right post|hits the left post|hits the bar", data$livetext[i]))
+  {
+    data$primaryplayer[i] <- strsplit(data$livetext[i],'.',fixed=TRUE)[[1]][1]
+  }
+  else
+  {
+    data$primaryplayer[i] <- strsplit(data$livetext[i],'.',fixed=TRUE)[[1]][2]
+  }
   data$primaryplayer[i] <- sub("^\\s+", "", data$primaryplayer[i]) 
   data$primaryplayer[i] <- strsplit(as.character(data$primaryplayer[i]),' (',fixed=TRUE)[[1]][1]
 }
@@ -48,9 +56,16 @@ for (i in 1:nrow(data)) {
 #Assisting player
 #Splits sentence by period '.', and takes 3rd part. If type of assist is present (if sentence has
 #'with', then take the name after 'by' and before 'with'. If not, take the name that follows 'by'.)
-
+#If ball hits post or bar, the entry is different. Hence accounting for that. Have to take 2nd part
 for (i in 1:nrow(data)) {
-  data$assistplayer[i] <- strsplit(data$livetext[i],'.',fixed=TRUE)[[1]][3]
+  if(grepl("hits the right post|hits the left post|hits the bar", data$livetext[i]))
+  {
+    data$assistplayer[i] <- strsplit(data$livetext[i],'.',fixed=TRUE)[[1]][2]
+  }
+  else
+  {
+    data$assistplayer[i] <- strsplit(data$livetext[i],'.',fixed=TRUE)[[1]][3]
+  }
   
   if(grepl("with", x = data$assistplayer[i])) {
     data$assistplayer[i] <- str_match(data$assistplayer[i], paste("by ", '(.+)', " with", sep=''))[,2]    
@@ -68,9 +83,9 @@ data$eventteam <- sub("\\).*", "", sub(".*\\(", "", data$livetext))
 
 #Save or goal location
 locations <- c("top right corner","bottom right corner","top left corner", "bottom left corner",
-               "centre of the goal","top centre of the goal")
+               "centre of the goal","top centre of the goal","left post", "right post", "bar")
 
-locationshorts <- c("TRC","BRC","TLC","BLC","C","TC")
+locationshorts <- c("TRC","BRC","TLC","BLC","C","TC", "LPost", "RPost", "Bar")
 for (i in 1:length(locations)) {
     data$goalposition[grepl(locations[i],data$livetext, perl=TRUE)] <- locationshorts[i]
 }
