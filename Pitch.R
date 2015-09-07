@@ -11,8 +11,13 @@ circleFunc <- function(centre = c(0,0), diameter = 1, npoints = 100, start = 0, 
   return(data.frame(x = xx, y = yy))
 }
 
-centerCircle <- circleFunc(c(1,-1), 2.5)
-ggplot(centerCircle, aes(x,y)) + geom_path()
+
+dat <- circleFunc(c(1,-1),2.3,npoints = 100)
+#geom_path will do open circles, geom_polygon will do filled circles
+ggplot(dat,aes(x,y)) + geom_path()
+
+centerCircle <- circleFunc(c(50,50), 2.5)
+abc <- ggplot(centerCircle, aes(x,y)) + geom_path()
 #the fill argument is for the colour inside and the colour argument is for the outline
 
 pitchOutline <- geom_rect(aes(xmin = 0, xmax = 100, ymin = 0, ymax = 100), fill = "light green", colour = "black", size = 1)
@@ -28,8 +33,9 @@ noFill <- theme(rect = element_blank(), line = element_blank(), text = element_b
 #element_blank removes the gridlines inside
 
 
-ggplot() + pitchOutline + halfwayLine + LHSpenaltyBox + RHSpenaltyBox + LHS6yardBox + RHS6yardBox + 
-  noFill + LHSpenSpot + RHSpenSpot
+footballPitch <- ggplot() + pitchOutline + halfwayLine + 
+  LHSpenaltyBox + RHSpenaltyBox + LHS6yardBox + RHS6yardBox + 
+  noFill + LHSpenSpot + RHSpenSpot 
 
 
 #Code to use if you have ExpG. Ignore geom_segment though
