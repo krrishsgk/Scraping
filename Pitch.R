@@ -29,14 +29,23 @@ RHS6yardBox <- geom_rect(aes(xmin = 94, xmax = 100, ymin = 36.8, ymax = 63.2), f
 LHSpenSpot <- geom_point(aes(x = 11.33, y = 50))
 RHSpenSpot <- geom_point(aes(x = 88.67, y = 50))
 noFill <- theme(rect = element_blank(), line = element_blank(), text = element_blank())
-
 #element_blank removes the gridlines inside
+
+#Shooting zones
+closeRange <- geom_rect(aes(xmin = 0, xmax = 6, ymin = 45.6, ymax = 54.4), fill = NA, colour = "black", size = 0.5)
+RS6Box <- geom_rect(aes(xmin = 0, xmax = 6, ymin = 54.4, ymax = 63.2), fill = NA, colour = "black", size = 0.5)
+LS6Box <- geom_rect(aes(xmin = 0, xmax = 6, ymin = 36.8, ymax = 45.6), fill = NA, colour = "black", size = 0.5)
+RHS6yardBox <- geom_rect(aes(xmin = 94, xmax = 100, ymin = 36.8, ymax = 63.2), fill = NA, colour = "black", size = 0.5)
+RHS6yardBox <- geom_rect(aes(xmin = 94, xmax = 100, ymin = 36.8, ymax = 63.2), fill = NA, colour = "black", size = 0.5)
+RHS6yardBox <- geom_rect(aes(xmin = 94, xmax = 100, ymin = 36.8, ymax = 63.2), fill = NA, colour = "black", size = 0.5)
 
 
 footballPitch <- ggplot() + pitchOutline + halfwayLine + 
   LHSpenaltyBox + RHSpenaltyBox + LHS6yardBox + RHS6yardBox + 
-  noFill + LHSpenSpot + RHSpenSpot 
-
+  noFill + LHSpenSpot + RHSpenSpot + #these are the zones. remove after finalising
+  closeRange + RS6Box + LS6Box
+("FreeKick","pen","CloseRange","CBox","OBox","DiffAngR","DiffAngL","LSBox","RSBox","RS6Box","LS6Box",
+"DiffAngLongR","DiffAngLongL","35YardsPlus","LongL","LongR","40PlusR","40PlusL"
 
 #Code to use if you have ExpG. Ignore geom_segment though
 b <- ggplot(test, aes(x,y)) + geom_point() + geom_segment(aes(x = 0, y = 0, xend = 0, yend = 100)) +
