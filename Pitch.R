@@ -35,18 +35,32 @@ noFill <- theme(rect = element_blank(), line = element_blank(), text = element_b
 closeRange <- geom_rect(aes(xmin = 0, xmax = 6, ymin = 45.6, ymax = 54.4), fill = NA, colour = "black", size = 0.5)
 RS6Box <- geom_rect(aes(xmin = 0, xmax = 6, ymin = 54.4, ymax = 63.2), fill = NA, colour = "black", size = 0.5)
 LS6Box <- geom_rect(aes(xmin = 0, xmax = 6, ymin = 36.8, ymax = 45.6), fill = NA, colour = "black", size = 0.5)
-RHS6yardBox <- geom_rect(aes(xmin = 94, xmax = 100, ymin = 36.8, ymax = 63.2), fill = NA, colour = "black", size = 0.5)
-RHS6yardBox <- geom_rect(aes(xmin = 94, xmax = 100, ymin = 36.8, ymax = 63.2), fill = NA, colour = "black", size = 0.5)
-RHS6yardBox <- geom_rect(aes(xmin = 94, xmax = 100, ymin = 36.8, ymax = 63.2), fill = NA, colour = "black", size = 0.5)
+CBox <- geom_rect(aes(xmin = 6, xmax = 17, ymin = 36.8, ymax = 63.2), fill = NA, colour = "black", size = 0.5)
+LSBox <- geom_rect(aes(xmin = 0, xmax = 17, ymin = 21, ymax = 36.8), fill = NA, colour = "black", size = 0.5)
+RSBox <- geom_rect(aes(xmin = 0, xmax = 17, ymin = 63.2, ymax = 79), fill = NA, colour = "black", size = 0.5)
+DiffAngL <- geom_rect(aes(xmin = 0, xmax = 17, ymin = 0, ymax = 21), fill = NA, colour = "black", size = 0.5)
+DiffAngR <- geom_rect(aes(xmin = 0, xmax = 17, ymin = 79, ymax = 100), fill = NA, colour = "black", size = 0.5)
+OBox <- geom_rect(aes(xmin = 17, xmax = 30, ymin = 21, ymax = 79), fill = NA, colour = "black", size = 0.5)
+DiffAngLongL <- geom_rect(aes(xmin = 17, xmax = 30, ymin = 0, ymax = 21), fill = NA, colour = "black", size = 0.5)
+DiffAngLongR <- geom_rect(aes(xmin = 17, xmax = 30, ymin = 79, ymax = 100), fill = NA, colour = "black", size = 0.5)
+Yards35Plus <- geom_rect(aes(xmin = 30, xmax = 38.67, ymin = 21, ymax = 79), fill = NA, colour = "black", size = 0.5)
+LongL <- geom_rect(aes(xmin = 30, xmax = 38.67, ymin = 0, ymax = 21), fill = NA, colour = "black", size = 0.5)
+LongR <- geom_rect(aes(xmin = 30, xmax = 38.67, ymin = 79, ymax = 100), fill = NA, colour = "black", size = 0.5)
+Plus40L <- geom_rect(aes(xmin = 38.67, xmax = 52, ymin = 0, ymax = 50), fill = NA, colour = "black", size = 0.5)
+Plus40R <- geom_rect(aes(xmin = 38.67, xmax = 52, ymin = 50, ymax = 100), fill = NA, colour = "black", size = 0.5)
 
 
 footballPitch <- ggplot() + pitchOutline + halfwayLine + 
   LHSpenaltyBox + RHSpenaltyBox + LHS6yardBox + RHS6yardBox + 
   noFill + LHSpenSpot + RHSpenSpot + #these are the zones. remove after finalising
-  closeRange + RS6Box + LS6Box
-("FreeKick","pen","CloseRange","CBox","OBox","DiffAngR","DiffAngL","LSBox","RSBox","RS6Box","LS6Box",
-"DiffAngLongR","DiffAngLongL","35YardsPlus","LongL","LongR","40PlusR","40PlusL"
+  closeRange + RS6Box + LS6Box + CBox + LSBox + RSBox + DiffAngL + DiffAngR + 
+    OBox + DiffAngLongL + DiffAngLongR + Yards35Plus + LongL + LongR +
+    Plus40L + Plus40R
 
+
+("FreeKick","pen","CloseRange","CBox","OBox","DiffAngR","DiffAngL","LSBox","RSBox","RS6Box",
+ "LS6Box", "DiffAngLongR","DiffAngLongL","35YardsPlus","LongL","LongR","40PlusR","40PlusL"
+ 
 #Code to use if you have ExpG. Ignore geom_segment though
 b <- ggplot(test, aes(x,y)) + geom_point() + geom_segment(aes(x = 0, y = 0, xend = 0, yend = 100)) +
   geom_segment(aes(x = 100, y = 0, xend = 100, yend = 100)) + 
