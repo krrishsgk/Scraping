@@ -39,7 +39,30 @@ xCoordFunc <- function(shotPos)
            )
 }
 
+yCoordFunc <- function(shotPos)
+{
+  switch(shotPos,
+         "CloseRange" = runif(1,min=45.6,max=54.4),
+         "CBox" = runif(1,min=36.8,max=63.2),
+         "OBox" = runif(1,min=21,max=79),
+         "DiffAngR" = runif(1,min=79,max=100),
+         "DiffAngL" =  runif(1,min=0,max=21),
+         "LSBox" = runif(1,min=21,max=36.8),
+         "RSBox" =  runif(1,min=63.2,max=79),
+         "RS6Box" = runif(1,min=54.4,max=63.2),
+         "LS6Box" = runif(1,min=36.8,max=45.6),
+         "DiffAngLongR" = runif(1,min=79,max=100),
+         "DiffAngLongL" = runif(1,min=0,max=21),
+         "35YardsPlus" = runif(1,min=21,max=79),
+         "LongL" = runif(1,min=0,max=21),
+         "LongR" = runif(1,min=79,max=100),
+         "40PlusR" = runif(1,min=0,max=50),
+         "40PlusL" = runif(1,min=50,max=100)
+  )
+}
+
 unitedgame$xCord <- lapply(unitedgame$shotposition,FUN=xCoordFunc)
+unitedgame$yCord <- lapply(unitedgame$shotposition,FUN=yCoordFunc)
 
 
 xy <- matrix(runif(20), ncol = 2)  # a matrix with some arbitrary points as coordinates..
