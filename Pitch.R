@@ -50,17 +50,20 @@ Plus40L <- geom_rect(aes(xmin = 38.67, xmax = 52, ymin = 0, ymax = 50), fill = N
 Plus40R <- geom_rect(aes(xmin = 38.67, xmax = 52, ymin = 50, ymax = 100), fill = NA, colour = "black", size = 0.5)
 
 
-footballPitch <- ggplot() + pitchOutline + halfwayLine + 
+footballPitch <- ggplot(unitedgame, aes(x=xCord, y=yCord))  + pitchOutline + halfwayLine + 
   LHSpenaltyBox + RHSpenaltyBox + LHS6yardBox + RHS6yardBox + 
-  noFill + LHSpenSpot + RHSpenSpot + #these are the zones. remove after finalising
+  noFill + geom_point(shape=1)
+#these are the zones. remove after finalising
   closeRange + RS6Box + LS6Box + CBox + LSBox + RSBox + DiffAngL + DiffAngR + 
     OBox + DiffAngLongL + DiffAngLongR + Yards35Plus + LongL + LongR +
-    Plus40L + Plus40R
+    Plus40L + Plus40R + geom_point()
+
+library(ggplot2)
+library(gridExtra)
+mtc <- mtcars
+ggplot(mtc, aes(x = hp, y = mpg)) + geom_point()
 
 
-("FreeKick","pen","CloseRange","CBox","OBox","DiffAngR","DiffAngL","LSBox","RSBox","RS6Box",
- "LS6Box", "DiffAngLongR","DiffAngLongL","35YardsPlus","LongL","LongR","40PlusR","40PlusL"
- 
 #Code to use if you have ExpG. Ignore geom_segment though
 b <- ggplot(test, aes(x,y)) + geom_point() + geom_segment(aes(x = 0, y = 0, xend = 0, yend = 100)) +
   geom_segment(aes(x = 100, y = 0, xend = 100, yend = 100)) + 

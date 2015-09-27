@@ -1,10 +1,13 @@
 #Assigning each shot random coordinates based on the zone it is located in
 
 #Scraping a random game
-unitedgame <- "http://www.bbc.com/sport/football/29090585"
+unitedgame <- "http://www.bbc.com/sport/0/football/34299545"
 unitedgame <- getmatchdata(unitedgame)
 unitedgame <- makedata(unitedgame)
 unitedgame <- unitedgame[which(unitedgame$eventType == "shot"),]
+unitedgame <- unitedgame[which(unitedgame$eventteam == "Manchester United"),]
+unitedgame$xCord <- unlist(lapply(unitedgame$shotposition,FUN=xCoordFunc))
+unitedgame$yCord <- unlist(lapply(unitedgame$shotposition,FUN=yCoordFunc))
 
 
 #Take each shot, assign it random coordinates based on its zone
@@ -61,8 +64,8 @@ yCoordFunc <- function(shotPos)
   )
 }
 
-unitedgame$xCord <- lapply(unitedgame$shotposition,FUN=xCoordFunc)
-unitedgame$yCord <- lapply(unitedgame$shotposition,FUN=yCoordFunc)
+unitedgame$xCord <- unlist(lapply(unitedgame$shotposition,FUN=xCoordFunc))
+unitedgame$yCord <- unlist(lapply(unitedgame$shotposition,FUN=yCoordFunc))
 
 
 xy <- matrix(runif(20), ncol = 2)  # a matrix with some arbitrary points as coordinates..
