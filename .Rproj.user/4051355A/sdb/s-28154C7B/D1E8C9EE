@@ -1,0 +1,17 @@
+{
+    "contents" : "#Trying out all the summarising and group bys\n\n#Merging the shot datasets\nshots1314 <- read.csv(\"shots1314.csv\")\nshots1314 <- shots1314[,-1]\nshots1315 <- rbind(shots1314, shots1415)\n\n#Summarising\nlibrary(data.table)\nlibrary(dplyr)\n\n#Checking the data for cleanliness\ntemp <- grep(\"Assisted\", shots1415$primaryplayer, perl = TRUE)\ndump <- shots1315[temp,]\n\n#Creating a player database to merge for stronger foot\nbyPlayer <- group_by(shots1315, primaryplayer)\nbyPlayer <-summarise(byPlayer, shots = n())\n#Grouping by player, shot location, and foot\nbyPlayer <- group_by(shots1315, primaryplayer, shotposition, foot)\nbyPlayer <-summarise(byPlayer, shots = n())\n\n#Filtering for on target shots\nSoT <- filter(shots1315, goalposition != \"NA\")\nSoT <- group_by(SoT, primaryplayer,  shotposition, foot)\nSoT <- summarise(SoT, shots = n())\nSoT <- rename(.data = SoT, onTarget = shots)\n\ntempdata <- merge(byPlayer, SoT, by = c(\"primaryplayer\", \"shotposition\",\"foot\"), all.x = TRUE)\n\n\n#Filtering for goals\ngoals <- filter(shots1315, isgoal == TRUE)\ngoals <- group_by(goals, primaryplayer, shotposition, foot)\ngoals <- summarise(goals, shots = n())\ngoals <- rename(.data = goals, goals = shots)\n\nfinaldataset <- merge(tempdata, goals, by = c(\"primaryplayer\", \"shotposition\",\"foot\"), all.x = TRUE)\n\n#Creating Ratios\nfinaldataset <- mutate(finaldataset, ShootingAcc = (onTarget/shots)*100, Conversion = (goals/onTarget)*100)\n\n#For players only\n#Grouping shots\nonlyPlayer <-  group_by(shots1315, primaryplayer)\nonlyPlayer <- summarise(onlyPlayer, shots = n())\n\nplayerSoT <- filter(shots1315, goalposition != \"NA\")\nplayerSoT <- group_by(playerSoT, primaryplayer)\nplayerSoT <- summarise(playerSoT, shots = n())\nplayerSoT <- rename(.data = playerSoT, onTarget = shots)\n\nplayertempdata <- merge(onlyPlayer, playerSoT, by = c(\"primaryplayer\"), all.x = TRUE)\n\n\n#Filtering for goals\nplayergoals <- filter(shots1315, isgoal == TRUE)\nplayergoals <- group_by(playergoals, primaryplayer)\nplayergoals <- summarise(playergoals, shots = n())\nplayergoals <- rename(.data = playergoals, goals = shots)\n\nplayerfinaldataset <- merge(playertempdata, playergoals, by = c(\"primaryplayer\"), all.x = TRUE)\n\n#Creating Ratios\nplayerfinaldataset <- mutate(playerfinaldataset, ShootingAcc = (onTarget/shots)*100, Conversion = (goals/onTarget)*100)\n",
+    "created" : 1444479968449.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1583570145",
+    "id" : "D1E8C9EE",
+    "lastKnownWriteTime" : 1444496893,
+    "path" : "D:/Projects/08 - August/01 - Best Shooter in EPL (0508)/Scraping/Summarising.R",
+    "project_path" : "Summarising.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

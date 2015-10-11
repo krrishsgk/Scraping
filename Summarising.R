@@ -13,6 +13,9 @@ library(dplyr)
 temp <- grep("Assisted", shots1415$primaryplayer, perl = TRUE)
 dump <- shots1315[temp,]
 
+#Creating a player database to merge for stronger foot
+byPlayer <- group_by(shots1315, primaryplayer)
+byPlayer <-summarise(byPlayer, shots = n())
 #Grouping by player, shot location, and foot
 byPlayer <- group_by(shots1315, primaryplayer, shotposition, foot)
 byPlayer <-summarise(byPlayer, shots = n())

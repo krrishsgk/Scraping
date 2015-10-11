@@ -1,0 +1,18 @@
+{
+    "contents" : "\n#Creating a player database to get stronger foot data\nplayerBase <- group_by(shots1315, primaryplayer)\nplayerBase <-summarise(playerBase, shots = n())\n\n\n#importing stronger foot database\nstrongerFoot <- read.csv(\"strongerFoots.csv\")\n\n##Here's where the algorithm starts...\n##I'm going to generate a signature from country names to reduce some of the minor differences between strings\n##In this case, convert all characters to lower case, sort the words alphabetically, \n##and then concatenate them with no spaces.\n##So for example, United Kingdom would become kingdomunited\n##We might also remove stopwords such as 'the' and 'of'.\nsignature=function(x){\n  sig=paste(sort(unlist(strsplit(tolower(x),\" \"))),collapse='')\n  return(sig)\n}\n\npartialMatch=function(x,y,levDist=0.1){\n  xx=data.frame(sig=sapply(x, signature),row.names=NULL)\n  yy=data.frame(sig=sapply(y, signature),row.names=NULL)\n  xx$raw=x\n  yy$raw=y\n  xx=subset(xx,subset=(sig!=''))\n  xy=merge(xx,yy,by='sig',all=T)\n  matched=subset(xy,subset=(!(is.na(raw.x)) & !(is.na(raw.y))))\n  matched$pass=\"Duplicate\"\n  todo=subset(xy,subset=(is.na(raw.y)),select=c(sig,raw.x))\n  colnames(todo)=c('sig','raw')\n  todo$partials= as.character(sapply(todo$sig, agrep, yy$sig,max.distance = levDist,value=T))\n  todo=merge(todo,yy,by.x='partials',by.y='sig')\n  partial.matched=subset(todo,subset=(!(is.na(raw.x)) & !(is.na(raw.y))),select=c(\"sig\",\"raw.x\",\"raw.y\"))\n  partial.matched$pass=\"Partial\"\n  matched=rbind(matched,partial.matched)\n  un.matched=subset(todo,subset=(is.na(raw.x)),select=c(\"sig\",\"raw.x\",\"raw.y\"))\n  if (nrow(un.matched)>0){\n    un.matched$pass=\"Unmatched\"\n    matched=rbind(matched,un.matched)\n  }\n  matched=subset(matched,select=c(\"raw.x\",\"raw.y\",\"pass\"))\n  \n  return(matched)\n}\n",
+    "created" : 1444480201043.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3051352277",
+    "id" : "CEFEA32C",
+    "lastKnownWriteTime" : 1444577000,
+    "path" : "D:/Projects/08 - August/01 - Best Shooter in EPL (0508)/Scraping/MergeforFeet.R",
+    "project_path" : "MergeforFeet.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
