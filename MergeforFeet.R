@@ -43,3 +43,7 @@ partialMatch=function(x,y,levDist=0.1){
   
   return(matched)
 }
+
+matches=partialMatch(PercentageUsingTheNet$ECONOMY,ccode$Country.Name)
+matches=partialMatch(iconv(strongerFoot$SearchName),iconv(playerBase$primaryplayer))
+which(strongerFoot$SearchName == "")
