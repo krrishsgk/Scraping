@@ -10,7 +10,7 @@ leaguelinks <- function(leagueurl)
     
     bbcprefix <- "http://www.bbc.com"
     
-    page <- html(leagueurl)
+    page <- read_html(leagueurl)
     
     reportlinks <- page %>%
         html_nodes(".report") %>%

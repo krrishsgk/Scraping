@@ -4,7 +4,7 @@ library(magrittr)
 library(rvest)
 library(stringr)
 
-page <- html(x=url)
+page <- read_html(x=url)
 
 #extracting match commn through thr html tag associated with it
 livetext <- page %>%

@@ -8,7 +8,7 @@ tempdf <- do.call("rbind", apply(epllinks,MARGIN=2,getmatchdata))
 tempdf <- rbindlist(epllinks$matchlinks[1],use.names=FALSE,fill=FALSE)
 
 
-epllinks <- leaguelinks(link1415)
+epllinks <- leaguelinks(link1314)
 epllinks <- epllinks[1:320,]
 #subsetting epllinks to experiment
 templinks <- epllinks[1:190,]
